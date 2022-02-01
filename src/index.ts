@@ -1,51 +1,69 @@
 import { readFileSync } from 'fs';
 import * as readline from 'readline';
+// const readline = require('readline');
 const Colors = require('colors');
 
-
-const mode = "play";
+const WordGame = require('./WordGame');
+const Solver = require('./Solver');
 
 const file: string = readFileSync('resources/sgb-words.txt', 'utf-8');
-const words: string[] = file.split("\n");
-// for (const word of words) {
-//     console.log(colors.blue(word));
-// }
+const wordlist: string[] = file.split("\n");
 
-// type statusColors = {
-//     correct: string;
-//     justin: string;
-//     missed: string;
-// }
+var game = new WordGame(wordlist);
+var solver = new Solver(wordlist);
+console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
-const square_size: number = 3;
-function correct(s: string = " "): string {
-    return Colors.black(s + s).bgGreen.repeat(square_size);
-}
+function manual() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.setPrompt('> ');
 
-function justin(s: string = " "): string {
-    return Colors.black(s + s).bgYellow.repeat(square_size);
-}
-
-function missed(s: string = " "): string {
-    return Colors.white(s + s).bgGrey.repeat(square_size);
-}
-const bar: string = Colors.white(" ");
-
-var out: string = correct() + bar + correct() + bar + justin() + bar + missed() + bar + missed();
-for (let i = 0; i < square_size; i++) {
-    console.log(out);
-}
-
-// main
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-rl.setPrompt('> ');
-
-// inifinte loop
-rl.prompt();
-rl.on('line', (input) => {
-    console.log(Colors.blue(input));
+    var trial = 1;
     rl.prompt();
-});
+    rl.on('line', (line) => {
+        var input: string = line.trim();
+        if (game.varidateInput(input)) {
+            trial++;
+            console.log(Colors.blue(input));
+            game.judgeInput(input).printResult();
+        } else {
+            console.log(Colors.red(input).strikethrough);
+        };
+
+        if (trial <= game.getMaxTrial()) {
+            rl.prompt();
+        } else {
+            function askContinue() {
+                rl.question("continue: [y/n]", (input) => {
+                    if (input.match(/^y(es)?$/i)) {
+                        trial = 1;
+                        rl.prompt();
+                    } else if (input.match(/^n(o)?$/i)) {
+                        rl.close();
+                    } else {
+                        askContinue();
+                    }
+                });
+            }
+            askContinue();
+        }
+    });
+}
+
+function auto() {
+    for (var trial = 1; trial <= game.getMaxTrial(); trial++) {
+        var input = solver.solve();
+        console.log("> " + input);
+        if (game.varidateInput(input)) {
+            console.log(Colors.blue(input));
+            game.judgeInput(input).printResult();
+        } else {
+            console.log(Colors.red(input).strikethrough);
+        };
+    }
+}
+
+manual();
+// auto();

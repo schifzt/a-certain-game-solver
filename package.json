@@ -1,5 +1,5 @@
 {
-    "name": "wordle-solver-ts",
+    "name": "a-certain-game-solver",
     "version": "1.0.0",
     "description": "",
     "main": "dist/index.js",
@@ -13,15 +13,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/schifzt/wordle-solver-ts.git"
+        "url": "git+https://github.com/schifzt/a-certain-game-solver.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/schifzt/wordle-solver-ts/issues"
+        "url": "https://github.com/schifzt/a-certain-game-solver/issues"
     },
-    "homepage": "https://github.com/schifzt/wordle-solver-ts#readme",
+    "homepage": "https://github.com/schifzt/a-certain-game-solver#readme",
     "devDependencies": {
         "@types/node": "^16.11.21",
         "cfonts": "^2.10.0",

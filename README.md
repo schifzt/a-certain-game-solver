@@ -1,4 +1,4 @@
-# a-certain-game-solver
+# a certain game solver
 # build & run
 ```node
 npm run build
