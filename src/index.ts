@@ -13,7 +13,24 @@ var game = new WordGame(wordlist);
 var solver = new Solver(wordlist);
 console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
-function manual() {
+function vsSelf() {
+    for (var trial = 1; trial <= game.getMaxTrial(); trial++) {
+        const input = solver.solve();
+        console.log("> " + input);
+        game.setInput(input);
+
+        if (game.varidateInput()) {
+            console.log(Colors.blue(input));
+            game.judgeInput();
+            game.printResult();
+            solver.setResult(input, game.getJudge());
+        } else {
+            console.log(Colors.red(input).strikethrough);
+        };
+    }
+}
+
+function vsPerson() {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -23,11 +40,13 @@ function manual() {
     var trial = 1;
     rl.prompt();
     rl.on('line', (line) => {
-        var input: string = line.trim();
-        if (game.varidateInput(input)) {
+        const input: string = line.trim();
+        game.setInput(input);
+        if (game.varidateInput()) {
             trial++;
             console.log(Colors.blue(input));
-            game.judgeInput(input).printResult();
+            game.judgeInput();
+            game.printResult();
         } else {
             console.log(Colors.red(input).strikethrough);
         };
@@ -52,18 +71,50 @@ function manual() {
     });
 }
 
-function auto() {
-    for (var trial = 1; trial <= game.getMaxTrial(); trial++) {
-        var input = solver.solve();
-        console.log("> " + input);
-        if (game.varidateInput(input)) {
-            console.log(Colors.blue(input));
-            game.judgeInput(input).printResult();
+
+function vsMachine() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.setPrompt('> ');
+
+    var trial = 1;
+    var input = solver.solve()
+    console.log("input: " + Colors.blue(input));
+    game.setInput(input);
+    rl.prompt();
+    rl.on('line', (line) => {
+        const judge: string = line.trim();
+        game.setJudge(judge);
+
+        if (game.varidateJudge()) {
+            game.printResult();
+
+            rl.question("register: [y/n]", (input) => {
+                if (input.match(/^y(es)?$/i)) {
+                    solver.setResult(input, judge);
+                    console.log();
+
+                    input = solver.solve();
+                    console.log("input: " + Colors.blue(input));
+                    rl.prompt();
+                } else {
+                    rl.prompt();
+                }
+            });
         } else {
-            console.log(Colors.red(input).strikethrough);
-        };
-    }
+            rl.prompt();
+        }
+
+        if (line.trim().match('exit')) {
+            rl.close();
+        }
+    });
 }
 
-manual();
-// auto();
+
+
+// vsSelf();
+// vsPerson();
+vsMachine();

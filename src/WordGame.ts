@@ -10,6 +10,7 @@ class WordGame {
     wordlist: string[];
     answer: string;
     judge: string;
+    input: string;
     square_size: number;
     MAX_TRIAL: number;
 
@@ -17,8 +18,9 @@ class WordGame {
         this.wordlist = wordlist;
         this.answer = this.wordlist[rndInt(0, this.wordlist.length - 1)];
         this.judge = "";
+        this.input = "";
         this.square_size = square_size;
-        this.MAX_TRIAL = 6;
+        this.MAX_TRIAL = 3;
     }
 
     correct(s: string = " "): string {
@@ -41,20 +43,39 @@ class WordGame {
         return this.answer;
     }
 
+    getJudge(): string {
+        return this.judge;
+    }
+
+    setJudge(s: string) {
+        this.judge = s;
+    }
+
+    setInput(s: string) {
+        this.input = s;
+    }
+
     getMaxTrial(): number {
         return this.MAX_TRIAL;
     }
 
-    varidateInput(s: string): boolean {
-        return s.length == 5 && s !== null && this.wordlist.includes(s) ? true : false;
+    varidateJudge(): boolean {
+        var s = this.judge;
+        const regex = /[^0-2]/g;
+        return s.length == 5 && s.match(regex) === null ? true : false;
     }
 
-    judgeInput(input: string): this {
+    varidateInput(): boolean {
+        var s = this.input;
+        return s.length == 5 && this.wordlist.includes(s) ? true : false;
+    }
+
+    judgeInput(): this {
         this.judge = "";
-        for (var i = 0; i < input.length; i++) {
-            if (input[i] == this.answer[i]) {
+        for (var i = 0; i < this.input.length; i++) {
+            if (this.input[i] == this.answer[i]) {
                 this.judge += 2;
-            } else if (this.answer.includes(input[i])) {
+            } else if (this.answer.includes(this.input[i])) {
                 this.judge += 1;
             } else {
                 this.judge += 0;
