@@ -24,10 +24,14 @@
     "homepage": "https://github.com/schifzt/wordle-solver-ts#readme",
     "devDependencies": {
         "@types/node": "^16.11.21",
+        "cfonts": "^2.10.0",
         "npm-run-all": "^4.1.5",
         "rimraf": "^3.0.2",
         "ts-node": "^10.4.0",
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.5.5"
+    },
+    "dependencies": {
+        "colors": "^1.4.0"
     }
 }
