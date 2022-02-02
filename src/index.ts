@@ -91,8 +91,8 @@ function vsMachine() {
         if (game.varidateJudge()) {
             game.printResult();
 
-            rl.question("register: [y/n]", (input) => {
-                if (input.match(/^y(es)?$/i)) {
+            rl.question("register: [y/n]", (yn) => {
+                if (yn.match(/^y(es)?$/i)) {
                     solver.setResult(input, judge);
                     console.log();
 

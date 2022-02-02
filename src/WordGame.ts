@@ -15,28 +15,12 @@ class WordGame {
     MAX_TRIAL: number;
 
     constructor(wordlist: string[], square_size: number = 3) {
-        this.wordlist = wordlist;
+        this.wordlist = wordlist.slice(0, wordlist.length);
         this.answer = this.wordlist[rndInt(0, this.wordlist.length - 1)];
         this.judge = "";
         this.input = "";
         this.square_size = square_size;
         this.MAX_TRIAL = 3;
-    }
-
-    correct(s: string = " "): string {
-        return Colors.black(s + s).bgGreen.repeat(this.square_size);
-    }
-
-    justin(s: string = " "): string {
-        return Colors.black(s + s).bgYellow.repeat(this.square_size);
-    }
-
-    missed(s: string = " "): string {
-        return Colors.white(s + s).bgGrey.repeat(this.square_size);
-    }
-
-    bar(): string {
-        return Colors.white(" ");
     }
 
     getAnswer(): string {
@@ -91,13 +75,13 @@ class WordGame {
         let out: string = "";
         for (var s of this.judge) {
             if (s == "2") {
-                out += this.correct();
+                out += Colors.black("  ").bgGreen.repeat(this.square_size);
             } else if (s == "1") {
-                out += this.justin();
+                out += Colors.black("  ").bgYellow.repeat(this.square_size);
             } else if (s == "0") {
-                out += this.missed();
+                out += Colors.white("  ").bgGrey.repeat(this.square_size);
             }
-            out += this.bar();
+            out += Colors.white(" ");
         }
 
         for (let i = 0; i < this.square_size; i++) {
