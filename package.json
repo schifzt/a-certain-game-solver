@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "ts-node src/index.ts",
         "dev:watch": "ts-node-dev --respawn src/index.ts",
+        "dev:sort": "ts-node src/SortByEntropy.ts",
         "clean": "rimraf dist/*",
         "tsc": "tsc",
         "build": "npm-run-all clean tsc",

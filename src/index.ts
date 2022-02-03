@@ -1,16 +1,22 @@
 import { readFileSync } from 'fs';
 import * as readline from 'readline';
-// const readline = require('readline');
 const Colors = require('colors');
 
 const WordGame = require('./WordGame');
 const Solver = require('./Solver');
+// const sortByEntropy = require('./SortByEntropy');
 
-const file: string = readFileSync('resources/sgb-words.txt', 'utf-8');
+const file: string = readFileSync('resources/wordlist.txt', 'utf-8');
 const wordlist: string[] = file.split("\n");
 
-var game = new WordGame(wordlist);
-var solver = new Solver(wordlist);
+function rndInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+const game = new WordGame(wordlist);
+const solver = new Solver(wordlist);
+
+game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
 console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
 function vsSelf() {

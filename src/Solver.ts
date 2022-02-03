@@ -17,38 +17,37 @@ class Solver {
     }
 
     reduceCandidates() {
-        // console.log(this.candidates);
 
         for (var i = 0; i < this.judge.length; i++) {
             if (this.judge[i] == "2") {
                 this.candidates.forEach((candidate, index) => {
                     if (!(candidate[i] == this.guess[i])) {
-                        this.candidates[index] = "";
+                        this.candidates[index] = "@";
                     }
                 });
             } else if (this.judge[i] == "1") {
                 this.candidates.forEach((candidate, index) => {
                     if (!(candidate[i] != this.guess[i] && candidate.includes(this.guess[i]))) {
-                        this.candidates[index] = "";
+                        this.candidates[index] = "@";
                     }
                 });
             } else if (this.judge[i] == "0") {
                 this.candidates.forEach((candidate, index) => {
-                    // console.log(candidate, index, this.guess[i], candidate.includes(this.guess[i]));
                     if (candidate.includes(this.guess[i])) {
-                        this.candidates[index] = "";
+                        this.candidates[index] = "@";
                     }
                 });
             }
 
-            this.candidates = this.candidates.filter(e => e !== "");
+            this.candidates = this.candidates.filter(e => e !== "@");
+            console.log(this.candidates);
         }
     }
 
     solve(): string {
         this.reduceCandidates();
         var guess = this.candidates[0];
-        if (guess !== "") {
+        if (guess !== null) {
             return guess;
         } else {
             return "I have no idea";

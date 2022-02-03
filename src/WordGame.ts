@@ -2,9 +2,6 @@ import { exit } from 'process';
 import * as readline from 'readline';
 const Colors = require('colors');
 
-function rndInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 class WordGame {
     wordlist: string[];
@@ -16,7 +13,7 @@ class WordGame {
 
     constructor(wordlist: string[], square_size: number = 3) {
         this.wordlist = wordlist.slice(0, wordlist.length);
-        this.answer = this.wordlist[rndInt(0, this.wordlist.length - 1)];
+        this.answer = "";
         this.judge = "";
         this.input = "";
         this.square_size = square_size;
@@ -25,6 +22,10 @@ class WordGame {
 
     getAnswer(): string {
         return this.answer;
+    }
+
+    setAnswer(s: string) {
+        this.answer = s;
     }
 
     getJudge(): string {

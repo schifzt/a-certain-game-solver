@@ -5,6 +5,10 @@
 ```node
 npm run build
 npm run start
+
+# dev
+ts-node src/{filename}.ts
+npm run dev:watch
 ```
 
 # License
