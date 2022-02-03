@@ -17,7 +17,6 @@ class Solver {
     }
 
     reduceCandidates() {
-
         for (var i = 0; i < this.judge.length; i++) {
             if (this.judge[i] == "2") {
                 this.candidates.forEach((candidate, index) => {
@@ -51,6 +50,7 @@ class Solver {
             return guess;
         } else {
             return "I have no idea";
+
         }
     }
 

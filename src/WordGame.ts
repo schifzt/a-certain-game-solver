@@ -17,7 +17,7 @@ class WordGame {
         this.judge = "";
         this.input = "";
         this.square_size = square_size;
-        this.MAX_TRIAL = 3;
+        this.MAX_TRIAL = 6;
     }
 
     getAnswer(): string {

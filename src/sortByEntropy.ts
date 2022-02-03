@@ -78,11 +78,14 @@ function sortByEntropy(wordlist_: string[]): string[] {
 // const sublist = ["apple", "which", "their", "quote", "gizmo"];
 // const sorted = sortByEntropy(sublist);
 
-const sorted = sortByEntropy(wordlist);
-
 import { createWriteStream } from 'fs';
-var file2 = createWriteStream('resources/sorted.txt', 'utf8');
-file2.on('error', function (err) { /* error handling */ });
-sorted.forEach(function (v: string) { file2.write(v + '\n'); });
-file2.end();
-console.log("complete");
+function main() {
+    const sorted = sortByEntropy(wordlist);
+    var file2 = createWriteStream('resources/sorted.txt', 'utf8');
+    file2.on('error', function (err) { /* error handling */ });
+    sorted.forEach(function (v: string) { file2.write(v + '\n'); });
+    file2.end();
+    console.log("complete");
+}
+
+module.exports = sortByEntropy;

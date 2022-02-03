@@ -4,9 +4,8 @@ const Colors = require('colors');
 
 const WordGame = require('./WordGame');
 const Solver = require('./Solver');
-// const sortByEntropy = require('./SortByEntropy');
 
-const file: string = readFileSync('resources/wordlist.txt', 'utf-8');
+const file: string = readFileSync('resources/sorted.txt', 'utf-8');
 const wordlist: string[] = file.split("\n");
 
 function rndInt(min: number, max: number): number {
@@ -16,10 +15,11 @@ function rndInt(min: number, max: number): number {
 const game = new WordGame(wordlist);
 const solver = new Solver(wordlist);
 
-game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
-console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
 function vsSelf() {
+    game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
+    console.log("answer: " + Colors.brightGreen(game.getAnswer()));
+
     for (var trial = 1; trial <= game.getMaxTrial(); trial++) {
         const input = solver.solve();
         console.log("> " + input);
@@ -36,11 +36,10 @@ function vsSelf() {
     }
 }
 
-function vsPerson() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+function vsPerson(rl: readline.Interface) {
+    game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
+    console.log("answer: " + Colors.brightGreen(game.getAnswer()));
+
     rl.setPrompt('> ');
 
     var trial = 1;
@@ -67,6 +66,7 @@ function vsPerson() {
                         rl.prompt();
                     } else if (input.match(/^n(o)?$/i)) {
                         rl.close();
+                        process.exit(0);
                     } else {
                         askContinue();
                     }
@@ -78,11 +78,10 @@ function vsPerson() {
 }
 
 
-function vsMachine() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+function vsMachine(rl: readline.Interface) {
+    game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
+    console.log("answer: " + Colors.brightGreen(game.getAnswer()));
+
     rl.setPrompt('> ');
 
     var trial = 1;
@@ -107,6 +106,7 @@ function vsMachine() {
                     rl.prompt();
                 } else {
                     rl.prompt();
+
                 }
             });
         } else {
@@ -115,12 +115,23 @@ function vsMachine() {
 
         if (line.trim().match('exit')) {
             rl.close();
+            process.exit(0);
         }
     });
 }
 
 
-
-// vsSelf();
-// vsPerson();
-vsMachine();
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+console.log("mode == " + Colors.blue(0) + ": a machine asks, a machine solves, and a machine judges.");
+console.log("mode == " + Colors.blue(1) + ": a machine asks, a person solves, and a machine judges,");
+console.log("mode == " + Colors.blue(2) + ": a website asks, a person input judges, a machine solves");
+rl.question("> mode:", (yn) => {
+    switch (yn.trim()) {
+        case "0": vsSelf(); break;
+        case "1": vsPerson(rl); break;
+        case "2": vsMachine(rl); break;
+    }
+});
