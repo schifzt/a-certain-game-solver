@@ -15,8 +15,14 @@ function rndInt(min: number, max: number): number {
 const game = new WordGame(wordlist);
 const solver = new Solver(wordlist);
 
+const CPALLETE = {
+    default: 'default',
+    cb: 'cb',
+} as const;
+type CPALLETE = typeof CPALLETE[keyof typeof CPALLETE];
 
-function vsSelf() {
+
+function vsSelf(cpallete: string) {
     game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
     console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
@@ -28,7 +34,7 @@ function vsSelf() {
         if (game.varidateInput()) {
             console.log(Colors.blue(input));
             game.judgeInput();
-            game.printResult();
+            game.printResult(cpallete);
             solver.setResult(input, game.getJudge());
         } else {
             console.log(Colors.red(input).strikethrough);
@@ -36,9 +42,9 @@ function vsSelf() {
     }
 }
 
-function vsPerson(rl: readline.Interface) {
+function vsPerson(cpallete: string, rl: readline.Interface) {
     game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
-    console.log("answer: " + Colors.brightGreen(game.getAnswer()));
+    // console.log("answer: " + Colors.brightGreen(game.getAnswer()));
 
     rl.setPrompt('> ');
 
@@ -51,7 +57,7 @@ function vsPerson(rl: readline.Interface) {
             trial++;
             console.log(Colors.blue(input));
             game.judgeInput();
-            game.printResult();
+            game.printResult(cpallete);
         } else {
             console.log(Colors.red(input).strikethrough);
         };
@@ -78,9 +84,7 @@ function vsPerson(rl: readline.Interface) {
 }
 
 
-function vsMachine(rl: readline.Interface) {
-    game.setAnswer(wordlist[rndInt(0, wordlist.length - 1)]);
-    console.log("answer: " + Colors.brightGreen(game.getAnswer()));
+function vsMachine(cpallete: string, rl: readline.Interface) {
 
     rl.setPrompt('> ');
 
@@ -94,7 +98,7 @@ function vsMachine(rl: readline.Interface) {
         game.setJudge(judge);
 
         if (game.varidateJudge()) {
-            game.printResult();
+            game.printResult(cpallete);
 
             rl.question("register: [y/n]", (yn) => {
                 if (yn.match(/^y(es)?$/i)) {
@@ -120,18 +124,21 @@ function vsMachine(rl: readline.Interface) {
     });
 }
 
-
+/**
+ * main
+ */
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-console.log("mode == " + Colors.blue(0) + ": a machine asks, a machine solves, and a machine judges.");
-console.log("mode == " + Colors.blue(1) + ": a machine asks, a person solves, and a machine judges,");
-console.log("mode == " + Colors.blue(2) + ": a website asks, a person input judges, a machine solves");
+console.log("mode == " + Colors.green(0) + ": a " + Colors.blue("machine") + " asks, a " + Colors.blue("machine") + " solves, and a " + Colors.blue("machine") + " judges.");
+console.log("mode == " + Colors.green(1) + ": a " + Colors.blue("machine") + " asks, a " + Colors.red("human") + " solves, and a " + Colors.blue("machine") + " judges, ");
+console.log("mode == " + Colors.green(2) + ": a " + Colors.blue("machine") + " asks, a " + Colors.red("human") + " input judges, and a " + Colors.blue("machine") + " solves");
 rl.question("> mode:", (yn) => {
     switch (yn.trim()) {
-        case "0": vsSelf(); break;
-        case "1": vsPerson(rl); break;
-        case "2": vsMachine(rl); break;
+        case "0": vsSelf(CPALLETE.cb); break;
+        case "1": vsPerson(CPALLETE.cb, rl); break;
+        case "2": vsMachine(CPALLETE.cb, rl); break;
+        default: console.log("invalid value"); break;
     }
 });

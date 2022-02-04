@@ -5,23 +5,21 @@ const file: string = readFileSync('resources/wordlist.txt', 'utf-8');
 const wordlist: string[] = file.split("\n");
 
 /**
- * Select the best guess to maximize an entropy of a judge (e.g. 21100) we observe.
+ * Select the best guess to maximize an entropy of a judge (e.g. 21100).
  * Example:
  *
  *     p(judge="21100"|answer="gorge", guess="group") = 1.
  *     p(judge="21100"|answer="zzzzz", guess="group") = 0.
  *     p(judge="21100"|guess="group") = \sum_{word in wordlist} p(judge="21100"|answer="word", guess="group")*p(word).
  *
- * Assuming p(word) follows uniform ditribution, we get p(judge="21100"|guess="group").
- * Next, an entropy of pattern conditioned guess taking a certain value "group" is given by
+ * Assuming p(word) follows uniform ditribution, we can calculate p(judge="21100"|guess="group").
+ * Next, an entropy of pattern conditioned on guess taking a certain value "group" is given by
  *
  *     H(pattern|guess="group") = \sum_{pattern in all pattern} -p(judge="pattern"|guess="group")*log(p(judge="pattern"|guess="group")).
  *
  * Therefore, we get the best guess by
  *
  *     guess* = max_{word in wordlist} H(pattern|guess="word").
- *
- * Note that we should re-calculate p(judge="21100"|guess="group") for each trial since wordlist is reduced as a game proceed,
  */
 
 function calcEntropy(guess: string): number {

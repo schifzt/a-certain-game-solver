@@ -8,15 +8,15 @@ class WordGame {
     answer: string;
     judge: string;
     input: string;
-    square_size: number;
+    box_size: number;
     MAX_TRIAL: number;
 
-    constructor(wordlist: string[], square_size: number = 3) {
+    constructor(wordlist: string[], box_size: number = 3) {
         this.wordlist = wordlist.slice(0, wordlist.length);
         this.answer = "";
         this.judge = "";
         this.input = "";
-        this.square_size = square_size;
+        this.box_size = box_size;
         this.MAX_TRIAL = 6;
     }
 
@@ -69,23 +69,53 @@ class WordGame {
         return this;
     }
 
-    printResult(): this {
+    colorbox2(cpalette: string): string {
+        switch (cpalette) {
+            case "default":
+                return Colors.black("  ").bgGreen.repeat(this.box_size);
+            case "cb":
+                return Colors.black("  ").bgRed.repeat(this.box_size);
+            default: return "";
+        }
+    }
+
+    colorbox1(cpalette: string): string {
+        switch (cpalette) {
+            case "default":
+                return Colors.black("  ").bgYellow.repeat(this.box_size);
+            case "cb":
+                return Colors.black("  ").bgBlue.repeat(this.box_size);
+            default: return "";
+        }
+    }
+
+    colorbox0(cpalette: string): string {
+        switch (cpalette) {
+            case "default":
+                return Colors.white("  ").bgGrey.repeat(this.box_size);
+            case "cb":
+                return Colors.white("  ").bgGrey.repeat(this.box_size);
+            default: return "";
+        }
+    }
+
+    printResult(cpalette: string): this {
         if (this.judge === "") {
             return this;
         }
         let out: string = "";
         for (var s of this.judge) {
             if (s == "2") {
-                out += Colors.black("  ").bgGreen.repeat(this.square_size);
+                out += this.colorbox2(cpalette);
             } else if (s == "1") {
-                out += Colors.black("  ").bgYellow.repeat(this.square_size);
+                out += this.colorbox1(cpalette);
             } else if (s == "0") {
-                out += Colors.white("  ").bgGrey.repeat(this.square_size);
+                out += this.colorbox0(cpalette);
             }
             out += Colors.white(" ");
         }
 
-        for (let i = 0; i < this.square_size; i++) {
+        for (let i = 0; i < this.box_size; i++) {
             console.log(out);
         }
         return this;
