@@ -1,5 +1,5 @@
 # a certain game solver
- ![screenshot](./resources/screenshot2.png)
+ ![screenshot](./resources/screenshot3.png)
 
 # Usage
 ```node
