@@ -1,5 +1,5 @@
 {
-    "name": "a-certain-game-solver",
+    "name": "wordgame-solver-ts",
     "version": "1.0.0",
     "description": "",
     "main": "dist/index.js",
@@ -14,15 +14,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/schifzt/a-certain-game-solver.git"
+        "url": "git+https://github.com/schifzt/wordgame-solver-ts.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/schifzt/a-certain-game-solver/issues"
+        "url": "https://github.com/schifzt/wordgame-solver-ts/issues"
     },
-    "homepage": "https://github.com/schifzt/a-certain-game-solver#readme",
+    "homepage": "https://github.com/schifzt/wordgame-solver-ts#readme",
     "devDependencies": {
         "@types/node": "^16.11.21",
         "cfonts": "^2.10.0",

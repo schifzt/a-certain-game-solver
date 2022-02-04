@@ -1,7 +1,6 @@
 resources/*
 !resources/*.png
 
-
 # Windows
 Thumbs.db
 ehthumbs.db

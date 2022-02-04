@@ -1,4 +1,4 @@
-# a certain game solver
+# wordgame solver ts
  ![screenshot](./resources/screenshot3.png)
 
 # Usage
